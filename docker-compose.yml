@@ -1,0 +1,68 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: bikahve_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bikahve
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bikahve_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS Backend
+  backend:
+    build:
+      context: ./bikahve-backend
+      dockerfile: Dockerfile
+    container_name: bikahve_backend
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/bikahve?schema=public
+      APP_PORT: 3000
+      JWT_ACCESS_SECRET: change-this-to-a-very-long-access-secret-32-chars-plus
+      JWT_REFRESH_SECRET: change-this-to-a-very-long-refresh-secret-32-chars-plus
+      JWT_ACCESS_TTL: 15m
+      JWT_REFRESH_TTL: 7d
+      OTP_SIMULATION_CODE: 1234
+      QR_HMAC_SECRET: change-this-to-a-very-long-qr-hmac-secret-32-chars-plus
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - bikahve_network
+    restart: unless-stopped
+
+  # React Frontend (Nginx)
+  frontend:
+    build:
+      context: ./bikahve-frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    container_name: bikahve_frontend
+    ports:
+      - "80:80"
+    networks:
+      - bikahve_network
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+
+networks:
+  bikahve_network:
+    driver: bridge
