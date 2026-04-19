@@ -1,4 +1,4 @@
-# 🏆 BiKahve - Frontend (Turkcell CodeNight '26 Hatay Bölge Birincisi Projesi)
+# 🏆 BiKahve - Frontend (Turkcell CodeNight '26 Hatay Bölge Birincilik Projesi)
 
 Bu proje, **Turkcell CodeNight 2026** maratonunda 10 saatlik süre içerisinde geliştirilen ve Hatay ayağında **birincilik** elde eden **BiKahve** platformunun frontend kodlarını içermektedir.
 
