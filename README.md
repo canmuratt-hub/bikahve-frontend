@@ -93,16 +93,4 @@ Bu değerler yerel geliştirme için ayarlandı ve üretim ortamında değiştir
 
 Bu repo tek bir kök dizin altında organize edildiği için, eğer `bikahve-backend` ve `bikahve-frontend` içinde ayrı `.git` klasörleri varsa, tek bir ana repo ile tutarlı olması için bunları silip kök dizinde `git init` yapabilirsin.
 
-## İletişim
-
-Projeyi GitHub'a yüklemek için aşağıdaki adımları takip et:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/<kullaniciadi>/<repoadi>.git
-git push -u origin main
-```
-Bu projenin fronted kısmını üstlendim bir ekip çalışmasının ürünüdür.
+Bu projenin fronted kısmını üstlendim bir ekip çalışmasının ürünüdür..
